@@ -1,6 +1,7 @@
 import App from './components/AppComponent.vue'
 import Login from './components/LoginComponent.vue'
 import Register from './components/RegisterComponent.vue'
+import MyAccount from './components/MyAccount.vue'
 
 export const routes = [
     {
@@ -18,5 +19,9 @@ export const routes = [
 	{
 		path:'/register',
         component: Register
+    },
+    {
+		path:'/account',
+        component: MyAccount
     }
 ];

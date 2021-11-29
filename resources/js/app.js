@@ -6,7 +6,7 @@ import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 import axios from 'axios'
 import VueAxios from 'vue-axios'
-
+import store from './store'
 //Routes
 import { routes } from './routes';
 
@@ -37,5 +37,7 @@ Vue.component('app-footer', require('./components/FooterComponent.vue').default)
  */
 
 const app = new Vue({
-    router
+    router,
+    store,
+    beforeCreate() { this.$store.commit('initialiseStore');},
 }).$mount('#app')
