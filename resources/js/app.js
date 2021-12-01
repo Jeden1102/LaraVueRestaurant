@@ -29,6 +29,7 @@ export const router = new VueRouter({
 
 Vue.component('app-header', require('./components/HeaderComponent.vue').default);
 Vue.component('app-footer', require('./components/FooterComponent.vue').default);
+Vue.component('app-cart', require('./components/siteCart.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

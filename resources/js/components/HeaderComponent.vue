@@ -1,15 +1,19 @@
-<template>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <router-link to=/ class=navbar-brand>Navbar</router-link>
+<template class="">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light ">
+        <router-link to=/ class=navbar-brand>
+<img class="col-6" src="/images/logo.png" alt="">
+        </router-link>
         <button class=navbar-toggler type=button data-toggle=collapse data-target=#navbarSupportedContent aria-controls=navbarSupportedContent aria-expanded=false aria-label="Toggle navigation">
             <span class=navbar-toggler-icon></span>
             
         </button>
-
         <div class="collapse navbar-collapse" id=navbarSupportedContent>
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
+                <li class="nav-item ">
                     <router-link to=/home class=nav-link>Home</router-link>
+                </li>
+                <li class="nav-item ">
+                    <router-link to=/menu class=nav-link>Menu</router-link>
                 </li>
                 <li v-if="!logged" class=nav-item>
                     <router-link to=/login class=nav-link>Login</router-link>
@@ -26,6 +30,7 @@
                 </li>
             </ul>
         </div>
+        <i @click="changeCart" class="fas fa-shopping-basket text-2xl mx-8 cart-icon"></i>
         </nav>
 </template>
 
@@ -38,17 +43,28 @@ export default {
     logged() {
       return this.$store.state.logged;
     },
+    cart(){
+      return this.$store.state.showCart;
+    }
   },
     methods:{
+        changeCart(){
+            this.$store.commit('changeCart');
+            console.log('ok')
+        },
         logoutUser(){
         this.$store.commit('updateLogged');
         localStorage.removeItem('logged');
         localStorage.removeItem('userData');
-        }
+        },
+
 
     },
       watch: {
     logged(newValue, oldValue) {
+      
+    },
+        cart(newValue, oldValue) {
       
     },
   },
@@ -58,5 +74,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
+.active{
+  color:red !important;
+}
 </style>

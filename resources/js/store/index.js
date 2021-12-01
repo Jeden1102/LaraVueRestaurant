@@ -6,7 +6,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     logged: false,
-    userData:null
+    userData:null,
+    showCart:false,
   },
   mutations: {
     initialiseStore(state) {
@@ -22,7 +23,10 @@ export default new Vuex.Store({
       },
       setUserData(state,userInfo){
           state.userData = userInfo;
-      }
+      },
+            changeCart(state){
+          state.showCart  = !state.showCart
+      },
     // updateCharacter(state, choice) {
     //   state.character = choice
     // },
