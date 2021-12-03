@@ -38,7 +38,7 @@
                       <div>
                         <div class="flex justify-between text-base font-medium text-gray-900">
                           <h3>
-                            <a href="#">
+                            <a class="" href="#">
                               Throwback Hip Bag
                             </a>
                           </h3>
@@ -155,7 +155,11 @@ import { mapState } from 'vuex';
 </script>
 
 <style lang="scss" scoped>
-.cart-box{
-    
+a{
+  color:black !important;
+}
+a:hover{
+  color:orange !important;
+  text-decoration:none;
 }
 </style>

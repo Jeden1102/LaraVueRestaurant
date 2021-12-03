@@ -9,6 +9,9 @@ import VueAxios from 'vue-axios'
 import store from './store'
 //Routes
 import { routes } from './routes';
+//carousel
+import VueCarousel from 'vue-carousel';
+Vue.use(VueCarousel);
 
 Vue.use(VueRouter)
 Vue.use(Vuex)

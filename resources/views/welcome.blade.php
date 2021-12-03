@@ -17,7 +17,7 @@
     <title>{{env('APP_NAME')}}</title><style>body{font-family:'Nunito',sans-serif}</style></head>
 <body>
     <div id=app class=wrapper>
-		<header id=appHeader class="app-header sticky top-0 left-0 test z-20">
+		<header id=appHeader class="app-header sticky top-0 left-0 test z-10">
 			<app-header></app-header>
 		</header>
 		<main id=appMain class=app-main>
@@ -32,9 +32,6 @@
     </div> <script src="{{ mix('js/app.js') }}"></script> </body>
 </html>
 <style>
-body{
-    font-family: 'Cutive Mono', monospace !important;
 
-}
 
 </style>

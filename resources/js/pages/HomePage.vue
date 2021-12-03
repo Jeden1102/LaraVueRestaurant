@@ -1,41 +1,63 @@
 <template>
-    <div class="w-full h-full md:h-screen ">
+<div>
+    <div class="w-full main-box ">
         <!-- BANER -->
-        <div class="h-full md:h-3/4 bg-blue-100 image text-white text-center flex items-center relative">
-            <div class="h-4/5 bg-black bg-opacity-40 flex items-center justify-center flex-column space-y-8 p-4 md:p-20 border-t border-b border-dotted border-white">
-                <h2 class="text-white text-5xl">Welcome to  <span class="text-yellow-600">FOOD</span><span>PENGUIN</span>  </h2>
-                <h1 class="other-font text-4xl">Taste our speciall dishes!</h1>
-                <p class="text-xl">
-                Located at Warsaw. We offer a wide array of fresh food – green pork plate, chimichangas, hamburger, barbacoa plate, pizza, salads, bbq with rice and beans and more. We use the freshest ingredients in preparing our food to provide the best quality and taste. Try our delicious food today! 
-                </p>
-                <button type="button" class="text-white w-60 bg-yellow-600 hover:bg-yellow-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900 font-bold"><i class="fas fa-utensils"></i> View menu</button>
-                <button type="button" class="text-white w-60 bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-3 mb-3 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 font-bold"><i class="fas fa-calendar-day"></i> Book a table</button>
-                
-    
+    <div class=" flex  justify-center sm:mt-4">
+        <div class="flex flex-col h-full sm:flex-row w-screen sm:items-center">
+            <div class="sm:w-96 bg-gradient-to-r from-yellow-200 to-yellow-300  overflow-hidden w-3/4 sm:w-full md:w-1/2 rounded-tr-3xl rounded-br-3xl h-full mt-8 flex justify-center items-center ">
+                <img class="w-3/4  h-3/4" src="/images/pizza-home.png" alt="">
             </div>
-            <a href="#" class="absolute w-8 h-8 bg-white rounded left-1/2 bottom-2 text-black flex items-center justify-center hover:text-black"><i class="fas fa-arrow-down animate-bounce text-xl"></i></a>
+            <div class="mt-4 sm:mt-0 sm:ml-4 md md:m-20 sm:w-3/4 flex items-center flex-col" >
+                <h1 class="mb-6 text-gray-600 text-center font-bold tracking-wider text-3xl sm:mb-8 ">
+                    Your favourite <span class="text-yellow-600 ">Food</span> now avaiable on-line delivered fresh and hot <span class="text-green-600">without</span>  going out home !
+                </h1>
+                <p class="font-light text-center text-xl px-2">
+                    Since 1973, The Spot Restaurant has been the go-to diner for residents of Binghamton, NY. Our diner serves breakfast all day, in addition to wholesome and flavorful dining options for lunch and dinner. From burgers to salads, seafood to pastas, you’ll find all kinds of hearty meals prepared fresh at The Spot Restaurant. Our diner also has a full bakery with delicious baked goods and other treats, including our famous cheesecake. Sounds delicious, right?
+                </p>
+                <div class="flex space-x-4">
+                <a  >
+                    <button type="button" class="p-6 mt-8 inline-flex items-center  border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-shopping-bag mr-2"></i>
+                        Order Now !
+                      </button>
+                </a>
+                <a  >
+                    <button type="button" class="p-6 mt-8 inline-flex items-center  border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <i class="fas fa-clock mr-2"></i>
+                        Book table !
+                      </button>
+                </a>
+                </div>
+
+            </div>
         </div>
-        <div>
-        </div>
-        xyz
     </div>
+
+    </div>
+            <Carousel/>
+            <Features/>
+</div>
+
 </template>
 
 <script>
-
+import Carousel from '../components/Carousel.vue';
+import Features from '../components/Features.vue';
+export default {
+    components: {
+        Carousel,
+        Features,
+    },
+}
 </script>
 
 <style lang="scss" scoped>
-.image{
-    background-image:url('/images/main.jpg');
-    background-position:bottom;
-    background-repeat:no-repeat;
-    background-size:cover;
-}
+
 .other-font{
     font-family: 'Amatic SC', cursive;
 }
 a:hover{
     text-decoration:none;
 }
+
 </style>
