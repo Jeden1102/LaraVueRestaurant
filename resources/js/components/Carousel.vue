@@ -1,7 +1,7 @@
 <template>
 <div class="h-96  w-full py-4 ">
         <h2 class="text-center other-font">Try our specialls!</h2>
-            <div id="example" class="my-auto relative bg-white">
+            <div id="example" class="my-auto relative ">
         <carousel-3d :autoplay="true" :autoplay-timeout="5000" :controls-visible="true" :clickable="false">
             <slide class="border-white shadow-lg" v-for="(slide, i) in slides" :index="i" :key="id">
             <figure class="h-3/4 ">

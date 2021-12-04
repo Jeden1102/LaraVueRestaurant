@@ -36,6 +36,7 @@
     </div>
             <Carousel/>
             <Features/>
+            <Reviews/>
 </div>
 
 </template>
@@ -43,10 +44,12 @@
 <script>
 import Carousel from '../components/Carousel.vue';
 import Features from '../components/Features.vue';
+import Reviews from '../components/Reviews.vue';
 export default {
     components: {
         Carousel,
         Features,
+        Reviews
     },
 }
 </script>

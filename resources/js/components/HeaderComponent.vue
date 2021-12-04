@@ -30,7 +30,8 @@
                 </li>
             </ul>
         </div>
-        <i @click="changeCart" class="fas fa-shopping-basket text-2xl mx-8 cart-icon"></i>
+        <button class="w-16 h-16 bg-yellow-600 text-white flex items-center justify-center bg-red-200 rounded-full"  @click="changeCart"><i class="fas fa-shopping-basket text-2xl mx-8 cart-icon"></i></button>
+        
         </nav>
 </template>
 
@@ -51,6 +52,8 @@ export default {
         changeCart(){
             this.$store.commit('changeCart');
             console.log('ok')
+                        let wholeBox = document.querySelector('#cartBox');
+            wholeBox.classList.toggle("hidden-cart-box");
         },
         logoutUser(){
         this.$store.commit('updateLogged');

@@ -1,12 +1,14 @@
 <template>
     <div>
         <!-- This example requires Tailwind CSS v2.0+ -->
-<div v-if="cart" class="fixed inset-0 overflow-hidden  z-30" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
-  <div class="absolute inset-0  overflow-hidden opacity-100 transform transition ease-in-out duration-500 sm:duration-700   cart-box">
+<transition name="fade">
+
+<div  v-if="showCart" class="fixed inset-0 overflow-hidden  z-30" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+  <div class="absolute inset-0  overflow-hidden ">
 
     <div class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
 
-    <div class="fixed inset-y-0 right-0 pl-10 max-w-full  flex">
+    <div class="fixed inset-y-0 right-0 pl-10 max-w-full  transform transition ease-in-out duration-500 sm:duration-700  flex">
 
       <div class="w-screen max-w-md">
         <div class="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
@@ -118,9 +120,11 @@
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </div>
+  </transition>
 
     </div>
 </template>
@@ -162,4 +166,11 @@ a:hover{
   color:orange !important;
   text-decoration:none;
 }
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
+
 </style>

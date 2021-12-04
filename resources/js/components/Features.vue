@@ -9,23 +9,23 @@
     </div>
     <div class="w-11/12 flex items-center justify-center flex-wrap mt-4 relative mx-auto">
 
-        <div class="flex flex-col items-center justify-center mx-2 w-52 h-52  rounded-sm shadow  bg-gray-50  p-4 hover:bg-gray-100 z-10" >
+        <div class="flex flex-col items-center justify-center mx-2 w-52 h-52  rounded-sm shadow  bg-gray-50  p-4 hover:bg-gray-100 " >
             <i class="fas fa-utensils text-5xl text-red-400"></i>
             <p class="text-xl mt-8 text-green-700">Quality Food</p>
         </div>
-        <div class="flex flex-col items-center justify-center w-52 h-52 my-2 mx-2  rounded-sm shadow  bg-gray-50  p-4 hover:bg-gray-100 z-10 " >
+        <div class="flex flex-col items-center justify-center w-52 h-52 my-2 mx-2  rounded-sm shadow  bg-gray-50  p-4 hover:bg-gray-100  " >
             <i class="far fa-smile-wink text-5xl text-red-400"></i>
             <p class="text-xl mt-8 text-green-700">Super taste</p>
         </div>
-        <div class="flex flex-col items-center justify-center w-52 h-52 my-2 mx-2  rounded-sm shadow  bg-gray-50  p-4 hover:bg-gray-100 z-10 " >
+        <div class="flex flex-col items-center justify-center w-52 h-52 my-2 mx-2  rounded-sm shadow  bg-gray-50  p-4 hover:bg-gray-100 " >
             <i class="fas fa-motorcycle text-5xl text-red-400"></i>
             <p class="text-xl mt-8 text-green-700">Fast delivery</p>
         </div>
-        <div class="flex flex-col items-center justify-center w-52 h-52 my-2 mx-2  rounded-sm shadow  bg-gray-50  p-4 hover:bg-gray-100 z-10" >
+        <div class="flex flex-col items-center justify-center w-52 h-52 my-2 mx-2  rounded-sm shadow  bg-gray-50  p-4 hover:bg-gray-100 " >
             <i class="fas fa-hand-holding-usd text-5xl text-red-400"></i>
             <p class="text-xl mt-8 text-green-700">Money saving</p>
         </div>
-        <div class="flex flex-col items-center justify-center w-52 h-52  my-2 mx-2 rounded-sm shadow  bg-gray-50  p-4 hover:bg-gray-100 z-10" >
+        <div class="flex flex-col items-center justify-center w-52 h-52  my-2 mx-2 rounded-sm shadow  bg-gray-50  p-4 hover:bg-gray-100 " >
             <i class="fas fa-glass-cheers text-5xl text-red-400"></i>
             <p class="text-xl mt-8 text-green-700">Great drinks</p>
         </div>
