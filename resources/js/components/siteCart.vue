@@ -7,8 +7,9 @@
   <div class="absolute inset-0  overflow-hidden ">
 
     <div class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+    <transition name="test">
 
-    <div class="fixed inset-y-0 right-0 pl-10 max-w-full  transform transition ease-in-out duration-500 sm:duration-700  flex">
+    <div v-if="showCart" class="fixed inset-y-0 right-0 pl-10 max-w-full  transform transition ease-in-out duration-500 sm:duration-700  flex">
 
       <div class="w-screen max-w-md">
         <div class="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
@@ -122,6 +123,7 @@
       </div>
 
     </div>
+    </transition>
   </div>
 </div>
   </transition>
@@ -171,6 +173,14 @@ a:hover{
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+.test-enter-active, .test-leave-active {
+   transform:translateX(0);
+  transition: transform .5s;
+
+}
+.test-enter, .test-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  transform:translateX(100%);
 }
 
 </style>

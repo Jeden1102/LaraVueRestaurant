@@ -2080,6 +2080,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue_carousel_3d__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-carousel-3d */ "./node_modules/vue-carousel-3d/dist/carousel-3d.common.js");
 /* harmony import */ var vue_carousel_3d__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_carousel_3d__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+//
+//
+//
+//
 //
 //
 //
@@ -2102,15 +2108,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      slides: 7
+      slides: 7,
+      speciallProducts: [{
+        ab: "def"
+      }, {
+        ab: "def"
+      }]
     };
   },
   components: {
     Carousel3d: vue_carousel_3d__WEBPACK_IMPORTED_MODULE_0__.Carousel3d,
     Slide: vue_carousel_3d__WEBPACK_IMPORTED_MODULE_0__.Slide
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    axios__WEBPACK_IMPORTED_MODULE_1___default().get('api/productsSpecialls').then(function (response) {
+      _this.speciallProducts = response.data;
+      console.log(_this.speciallProducts);
+    })["catch"](function (error) {
+      console.log(error);
+      _this.errored = true;
+    })["finally"](function () {
+      return _this.loading = false;
+    });
   }
 });
 
@@ -2213,6 +2238,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: {
@@ -2227,6 +2253,8 @@ __webpack_require__.r(__webpack_exports__);
     changeCart: function changeCart() {
       this.$store.commit('changeCart');
       console.log('ok');
+      var wholeBox = document.querySelector('#cartBox');
+      wholeBox.classList.toggle("hidden-cart-box");
     },
     logoutUser: function logoutUser() {
       this.$store.commit('updateLogged');
@@ -2575,6 +2603,12 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -7487,7 +7521,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "a[data-v-68f88e5c] {\n  color: black !important;\n}\na[data-v-68f88e5c]:hover {\n  color: orange !important;\n  text-decoration: none;\n}", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "a[data-v-68f88e5c] {\n  color: black !important;\n}\na[data-v-68f88e5c]:hover {\n  color: orange !important;\n  text-decoration: none;\n}\n.fade-enter-active[data-v-68f88e5c], .fade-leave-active[data-v-68f88e5c] {\n  transition: opacity 0.5s;\n}\n.fade-enter[data-v-68f88e5c], .fade-leave-to[data-v-68f88e5c] {\n  opacity: 0;\n}\n.test-enter-active[data-v-68f88e5c], .test-leave-active[data-v-68f88e5c] {\n  transform: translateX(0);\n  transition: transform 0.5s;\n}\n.test-enter[data-v-68f88e5c], .test-leave-to[data-v-68f88e5c] {\n  transform: translateX(100%);\n}", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -43753,13 +43787,13 @@ var render = function () {
               clickable: false,
             },
           },
-          _vm._l(_vm.slides, function (slide, i) {
+          _vm._l(_vm.speciallProducts, function (slide, i) {
             return _c(
               "slide",
               {
-                key: _vm.id,
+                key: i,
                 staticClass: "border-white shadow-lg",
-                attrs: { index: i },
+                attrs: { index: Number(i) },
               },
               [
                 _c("figure", { staticClass: "h-3/4 " }, [
@@ -43778,9 +43812,9 @@ var render = function () {
                       "absolute left-0 bottom-0 p-2 h-1/4 bg-white  w-full",
                   },
                   [
-                    _c("h3", [_vm._v("Margharitta")]),
+                    _c("h3", [_vm._v(_vm._s(slide.name))]),
                     _vm._v(" "),
-                    _c("p", [_vm._v("9.99$")]),
+                    _c("p", [_vm._v(_vm._s(slide.price) + "$")]),
                   ]
                 ),
                 _vm._v(" "),
@@ -44249,10 +44283,19 @@ var render = function () {
         ]
       ),
       _vm._v(" "),
-      _c("i", {
-        staticClass: "fas fa-shopping-basket text-2xl mx-8 cart-icon",
-        on: { click: _vm.changeCart },
-      }),
+      _c(
+        "button",
+        {
+          staticClass:
+            "w-16 h-16 bg-yellow-600 text-white flex items-center justify-center bg-red-200 rounded-full",
+          on: { click: _vm.changeCart },
+        },
+        [
+          _c("i", {
+            staticClass: "fas fa-shopping-basket text-2xl mx-8 cart-icon",
+          }),
+        ]
+      ),
     ],
     1
   )
@@ -44770,7 +44813,7 @@ var render = function () {
                               return _c(
                                 "slide",
                                 {
-                                  key: _vm.id,
+                                  key: i,
                                   staticClass:
                                     "border-white shadow-lg bg-white flex items-center justify-center",
                                   attrs: { index: i },
@@ -44921,374 +44964,527 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      {
-        staticClass: "fixed inset-0 overflow-hidden  z-30",
-        attrs: {
-          "aria-labelledby": "slide-over-title",
-          role: "dialog",
-          "aria-modal": "true",
-        },
-      },
-      [
-        _c(
-          "div",
-          {
-            staticClass:
-              "absolute inset-0  overflow-hidden opacity-100 transform transition ease-in-out duration-500 sm:duration-700   cart-box",
-          },
-          [
-            _c("div", {
-              staticClass:
-                "absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity",
-              attrs: { "aria-hidden": "true" },
-            }),
-            _vm._v(" "),
-            _c(
+  return _c(
+    "div",
+    [
+      _c("transition", { attrs: { name: "fade" } }, [
+        _vm.showCart
+          ? _c(
               "div",
-              { staticClass: "fixed inset-y-0 right-0 pl-10 max-w-full  flex" },
+              {
+                staticClass: "fixed inset-0 overflow-hidden  z-30",
+                attrs: {
+                  "aria-labelledby": "slide-over-title",
+                  role: "dialog",
+                  "aria-modal": "true",
+                },
+              },
               [
-                _c("div", { staticClass: "w-screen max-w-md" }, [
-                  _c(
-                    "div",
-                    {
+                _c(
+                  "div",
+                  { staticClass: "absolute inset-0  overflow-hidden " },
+                  [
+                    _c("div", {
                       staticClass:
-                        "h-full flex flex-col bg-white shadow-xl overflow-y-scroll",
-                    },
-                    [
-                      _c(
-                        "div",
-                        {
-                          staticClass:
-                            "flex-1 py-6 overflow-y-auto px-4 sm:px-6",
-                        },
-                        [
-                          _c(
+                        "absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity",
+                      attrs: { "aria-hidden": "true" },
+                    }),
+                    _vm._v(" "),
+                    _c("transition", { attrs: { name: "test" } }, [
+                      _vm.showCart
+                        ? _c(
                             "div",
-                            { staticClass: "flex items-start justify-between" },
+                            {
+                              staticClass:
+                                "fixed inset-y-0 right-0 pl-10 max-w-full  transform transition ease-in-out duration-500 sm:duration-700  flex",
+                            },
                             [
-                              _c(
-                                "h2",
-                                {
-                                  staticClass:
-                                    "text-lg font-medium text-gray-900",
-                                  attrs: { id: "slide-over-title" },
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                Shopping cart\n              "
-                                  ),
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "div",
-                                { staticClass: "ml-3 h-7 flex items-center" },
-                                [
-                                  _c(
-                                    "button",
-                                    {
-                                      staticClass:
-                                        "-m-2 p-2 text-gray-400 hover:text-gray-500",
-                                      attrs: { type: "button" },
-                                      on: { click: _vm.changeCart },
-                                    },
-                                    [
-                                      _c("span", { staticClass: "sr-only" }, [
-                                        _vm._v("Close panel"),
-                                      ]),
-                                      _vm._v(" "),
-                                      _c(
-                                        "svg",
-                                        {
-                                          staticClass: "h-6 w-6",
-                                          attrs: {
-                                            xmlns: "http://www.w3.org/2000/svg",
-                                            fill: "none",
-                                            viewBox: "0 0 24 24",
-                                            stroke: "currentColor",
-                                            "aria-hidden": "true",
+                              _c("div", { staticClass: "w-screen max-w-md" }, [
+                                _c(
+                                  "div",
+                                  {
+                                    staticClass:
+                                      "h-full flex flex-col bg-white shadow-xl overflow-y-scroll",
+                                  },
+                                  [
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "flex-1 py-6 overflow-y-auto px-4 sm:px-6",
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "flex items-start justify-between",
                                           },
-                                        },
-                                        [
-                                          _c("path", {
-                                            attrs: {
-                                              "stroke-linecap": "round",
-                                              "stroke-linejoin": "round",
-                                              "stroke-width": "2",
-                                              d: "M6 18L18 6M6 6l12 12",
+                                          [
+                                            _c(
+                                              "h2",
+                                              {
+                                                staticClass:
+                                                  "text-lg font-medium text-gray-900",
+                                                attrs: {
+                                                  id: "slide-over-title",
+                                                },
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                Shopping cart\n              "
+                                                ),
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "div",
+                                              {
+                                                staticClass:
+                                                  "ml-3 h-7 flex items-center",
+                                              },
+                                              [
+                                                _c(
+                                                  "button",
+                                                  {
+                                                    staticClass:
+                                                      "-m-2 p-2 text-gray-400 hover:text-gray-500",
+                                                    attrs: { type: "button" },
+                                                    on: {
+                                                      click: _vm.changeCart,
+                                                    },
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass: "sr-only",
+                                                      },
+                                                      [_vm._v("Close panel")]
+                                                    ),
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "svg",
+                                                      {
+                                                        staticClass: "h-6 w-6",
+                                                        attrs: {
+                                                          xmlns:
+                                                            "http://www.w3.org/2000/svg",
+                                                          fill: "none",
+                                                          viewBox: "0 0 24 24",
+                                                          stroke:
+                                                            "currentColor",
+                                                          "aria-hidden": "true",
+                                                        },
+                                                      },
+                                                      [
+                                                        _c("path", {
+                                                          attrs: {
+                                                            "stroke-linecap":
+                                                              "round",
+                                                            "stroke-linejoin":
+                                                              "round",
+                                                            "stroke-width": "2",
+                                                            d: "M6 18L18 6M6 6l12 12",
+                                                          },
+                                                        }),
+                                                      ]
+                                                    ),
+                                                  ]
+                                                ),
+                                              ]
+                                            ),
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "mt-8" }, [
+                                          _c(
+                                            "div",
+                                            { staticClass: "flow-root" },
+                                            [
+                                              _c(
+                                                "ul",
+                                                {
+                                                  staticClass:
+                                                    "-my-6 divide-y divide-gray-200",
+                                                  attrs: { role: "list" },
+                                                },
+                                                [
+                                                  _c(
+                                                    "li",
+                                                    {
+                                                      staticClass: "py-6 flex",
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden",
+                                                        },
+                                                        [
+                                                          _c("img", {
+                                                            staticClass:
+                                                              "w-full h-full object-center object-cover",
+                                                            attrs: {
+                                                              src: "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
+                                                              alt: "Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
+                                                            },
+                                                          }),
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "ml-4 flex-1 flex flex-col",
+                                                        },
+                                                        [
+                                                          _c("div", [
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "flex justify-between text-base font-medium text-gray-900",
+                                                              },
+                                                              [
+                                                                _c("h3", [
+                                                                  _c(
+                                                                    "a",
+                                                                    {
+                                                                      attrs: {
+                                                                        href: "#",
+                                                                      },
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "\n                              Throwback Hip Bag\n                            "
+                                                                      ),
+                                                                    ]
+                                                                  ),
+                                                                ]),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "p",
+                                                                  {
+                                                                    staticClass:
+                                                                      "ml-4",
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                            $90.00\n                          "
+                                                                    ),
+                                                                  ]
+                                                                ),
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "p",
+                                                              {
+                                                                staticClass:
+                                                                  "mt-1 text-sm text-gray-500",
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "\n                          Salmon\n                        "
+                                                                ),
+                                                              ]
+                                                            ),
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "flex-1 flex items-end justify-between text-sm",
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "p",
+                                                                {
+                                                                  staticClass:
+                                                                    "text-gray-500",
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "\n                          Qty 1\n                        "
+                                                                  ),
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "flex",
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "button",
+                                                                    {
+                                                                      staticClass:
+                                                                        "font-medium text-indigo-600 hover:text-indigo-500",
+                                                                      attrs: {
+                                                                        type: "button",
+                                                                      },
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "Remove"
+                                                                      ),
+                                                                    ]
+                                                                  ),
+                                                                ]
+                                                              ),
+                                                            ]
+                                                          ),
+                                                        ]
+                                                      ),
+                                                    ]
+                                                  ),
+                                                  _vm._v(" "),
+                                                  _c(
+                                                    "li",
+                                                    {
+                                                      staticClass: "py-6 flex",
+                                                    },
+                                                    [
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden",
+                                                        },
+                                                        [
+                                                          _c("img", {
+                                                            staticClass:
+                                                              "w-full h-full object-center object-cover",
+                                                            attrs: {
+                                                              src: "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
+                                                              alt: "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
+                                                            },
+                                                          }),
+                                                        ]
+                                                      ),
+                                                      _vm._v(" "),
+                                                      _c(
+                                                        "div",
+                                                        {
+                                                          staticClass:
+                                                            "ml-4 flex-1 flex flex-col",
+                                                        },
+                                                        [
+                                                          _c("div", [
+                                                            _c(
+                                                              "div",
+                                                              {
+                                                                staticClass:
+                                                                  "flex justify-between text-base font-medium text-gray-900",
+                                                              },
+                                                              [
+                                                                _c("h3", [
+                                                                  _c(
+                                                                    "a",
+                                                                    {
+                                                                      attrs: {
+                                                                        href: "#",
+                                                                      },
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "\n                              Medium Stuff Satchel\n                            "
+                                                                      ),
+                                                                    ]
+                                                                  ),
+                                                                ]),
+                                                                _vm._v(" "),
+                                                                _c(
+                                                                  "p",
+                                                                  {
+                                                                    staticClass:
+                                                                      "ml-4",
+                                                                  },
+                                                                  [
+                                                                    _vm._v(
+                                                                      "\n                            $32.00\n                          "
+                                                                    ),
+                                                                  ]
+                                                                ),
+                                                              ]
+                                                            ),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "p",
+                                                              {
+                                                                staticClass:
+                                                                  "mt-1 text-sm text-gray-500",
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "\n                          Blue\n                        "
+                                                                ),
+                                                              ]
+                                                            ),
+                                                          ]),
+                                                          _vm._v(" "),
+                                                          _c(
+                                                            "div",
+                                                            {
+                                                              staticClass:
+                                                                "flex-1 flex items-end justify-between text-sm",
+                                                            },
+                                                            [
+                                                              _c(
+                                                                "p",
+                                                                {
+                                                                  staticClass:
+                                                                    "text-gray-500",
+                                                                },
+                                                                [
+                                                                  _vm._v(
+                                                                    "\n                          Qty 1\n                        "
+                                                                  ),
+                                                                ]
+                                                              ),
+                                                              _vm._v(" "),
+                                                              _c(
+                                                                "div",
+                                                                {
+                                                                  staticClass:
+                                                                    "flex",
+                                                                },
+                                                                [
+                                                                  _c(
+                                                                    "button",
+                                                                    {
+                                                                      staticClass:
+                                                                        "font-medium text-indigo-600 hover:text-indigo-500",
+                                                                      attrs: {
+                                                                        type: "button",
+                                                                      },
+                                                                    },
+                                                                    [
+                                                                      _vm._v(
+                                                                        "Remove"
+                                                                      ),
+                                                                    ]
+                                                                  ),
+                                                                ]
+                                                              ),
+                                                            ]
+                                                          ),
+                                                        ]
+                                                      ),
+                                                    ]
+                                                  ),
+                                                ]
+                                              ),
+                                            ]
+                                          ),
+                                        ]),
+                                      ]
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "div",
+                                      {
+                                        staticClass:
+                                          "border-t border-gray-200 py-6 px-4 sm:px-6",
+                                      },
+                                      [
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "flex justify-between text-base font-medium text-gray-900",
+                                          },
+                                          [
+                                            _c("p", [_vm._v("Subtotal")]),
+                                            _vm._v(" "),
+                                            _c("p", [_vm._v("$262.00")]),
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "p",
+                                          {
+                                            staticClass:
+                                              "mt-0.5 text-sm text-gray-500",
+                                          },
+                                          [
+                                            _vm._v(
+                                              "Shipping and taxes calculated at checkout."
+                                            ),
+                                          ]
+                                        ),
+                                        _vm._v(" "),
+                                        _c("div", { staticClass: "mt-6" }, [
+                                          _c(
+                                            "a",
+                                            {
+                                              staticClass:
+                                                "flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700",
+                                              attrs: { href: "#" },
                                             },
-                                          }),
-                                        ]
-                                      ),
-                                    ]
-                                  ),
-                                ]
-                              ),
+                                            [_vm._v("Checkout")]
+                                          ),
+                                        ]),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          {
+                                            staticClass:
+                                              "mt-6 flex justify-center text-sm text-center text-gray-500",
+                                          },
+                                          [
+                                            _c("p", [
+                                              _vm._v("\n                or "),
+                                              _c(
+                                                "button",
+                                                {
+                                                  staticClass:
+                                                    "text-indigo-600 font-medium hover:text-indigo-500",
+                                                  attrs: { type: "button" },
+                                                },
+                                                [
+                                                  _vm._v("Continue Shopping"),
+                                                  _c(
+                                                    "span",
+                                                    {
+                                                      attrs: {
+                                                        "aria-hidden": "true",
+                                                      },
+                                                    },
+                                                    [_vm._v(" →")]
+                                                  ),
+                                                ]
+                                              ),
+                                            ]),
+                                          ]
+                                        ),
+                                      ]
+                                    ),
+                                  ]
+                                ),
+                              ]),
                             ]
-                          ),
-                          _vm._v(" "),
-                          _vm._m(0),
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _vm._m(1),
-                    ]
-                  ),
-                ]),
+                          )
+                        : _vm._e(),
+                    ]),
+                  ],
+                  1
+                ),
               ]
-            ),
-          ]
-        ),
-      ]
-    ),
-  ])
-}
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "mt-8" }, [
-      _c("div", { staticClass: "flow-root" }, [
-        _c(
-          "ul",
-          {
-            staticClass: "-my-6 divide-y divide-gray-200",
-            attrs: { role: "list" },
-          },
-          [
-            _c("li", { staticClass: "py-6 flex" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden",
-                },
-                [
-                  _c("img", {
-                    staticClass: "w-full h-full object-center object-cover",
-                    attrs: {
-                      src: "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-01.jpg",
-                      alt: "Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt.",
-                    },
-                  }),
-                ]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "ml-4 flex-1 flex flex-col" }, [
-                _c("div", [
-                  _c(
-                    "div",
-                    {
-                      staticClass:
-                        "flex justify-between text-base font-medium text-gray-900",
-                    },
-                    [
-                      _c("h3", [
-                        _c("a", { attrs: { href: "#" } }, [
-                          _vm._v(
-                            "\n                              Throwback Hip Bag\n                            "
-                          ),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "ml-4" }, [
-                        _vm._v(
-                          "\n                            $90.00\n                          "
-                        ),
-                      ]),
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mt-1 text-sm text-gray-500" }, [
-                    _vm._v(
-                      "\n                          Salmon\n                        "
-                    ),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "flex-1 flex items-end justify-between text-sm",
-                  },
-                  [
-                    _c("p", { staticClass: "text-gray-500" }, [
-                      _vm._v(
-                        "\n                          Qty 1\n                        "
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "flex" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass:
-                            "font-medium text-indigo-600 hover:text-indigo-500",
-                          attrs: { type: "button" },
-                        },
-                        [_vm._v("Remove")]
-                      ),
-                    ]),
-                  ]
-                ),
-              ]),
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "py-6 flex" }, [
-              _c(
-                "div",
-                {
-                  staticClass:
-                    "flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden",
-                },
-                [
-                  _c("img", {
-                    staticClass: "w-full h-full object-center object-cover",
-                    attrs: {
-                      src: "https://tailwindui.com/img/ecommerce-images/shopping-cart-page-04-product-02.jpg",
-                      alt: "Front of satchel with blue canvas body, black straps and handle, drawstring top, and front zipper pouch.",
-                    },
-                  }),
-                ]
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "ml-4 flex-1 flex flex-col" }, [
-                _c("div", [
-                  _c(
-                    "div",
-                    {
-                      staticClass:
-                        "flex justify-between text-base font-medium text-gray-900",
-                    },
-                    [
-                      _c("h3", [
-                        _c("a", { attrs: { href: "#" } }, [
-                          _vm._v(
-                            "\n                              Medium Stuff Satchel\n                            "
-                          ),
-                        ]),
-                      ]),
-                      _vm._v(" "),
-                      _c("p", { staticClass: "ml-4" }, [
-                        _vm._v(
-                          "\n                            $32.00\n                          "
-                        ),
-                      ]),
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("p", { staticClass: "mt-1 text-sm text-gray-500" }, [
-                    _vm._v(
-                      "\n                          Blue\n                        "
-                    ),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c(
-                  "div",
-                  {
-                    staticClass:
-                      "flex-1 flex items-end justify-between text-sm",
-                  },
-                  [
-                    _c("p", { staticClass: "text-gray-500" }, [
-                      _vm._v(
-                        "\n                          Qty 1\n                        "
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "flex" }, [
-                      _c(
-                        "button",
-                        {
-                          staticClass:
-                            "font-medium text-indigo-600 hover:text-indigo-500",
-                          attrs: { type: "button" },
-                        },
-                        [_vm._v("Remove")]
-                      ),
-                    ]),
-                  ]
-                ),
-              ]),
-            ]),
-          ]
-        ),
+            )
+          : _vm._e(),
       ]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "div",
-      { staticClass: "border-t border-gray-200 py-6 px-4 sm:px-6" },
-      [
-        _c(
-          "div",
-          {
-            staticClass:
-              "flex justify-between text-base font-medium text-gray-900",
-          },
-          [
-            _c("p", [_vm._v("Subtotal")]),
-            _vm._v(" "),
-            _c("p", [_vm._v("$262.00")]),
-          ]
-        ),
-        _vm._v(" "),
-        _c("p", { staticClass: "mt-0.5 text-sm text-gray-500" }, [
-          _vm._v("Shipping and taxes calculated at checkout."),
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "mt-6" }, [
-          _c(
-            "a",
-            {
-              staticClass:
-                "flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700",
-              attrs: { href: "#" },
-            },
-            [_vm._v("Checkout")]
-          ),
-        ]),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass:
-              "mt-6 flex justify-center text-sm text-center text-gray-500",
-          },
-          [
-            _c("p", [
-              _vm._v("\n                or "),
-              _c(
-                "button",
-                {
-                  staticClass:
-                    "text-indigo-600 font-medium hover:text-indigo-500",
-                  attrs: { type: "button" },
-                },
-                [
-                  _vm._v("Continue Shopping"),
-                  _c("span", { attrs: { "aria-hidden": "true" } }, [
-                    _vm._v(" →"),
-                  ]),
-                ]
-              ),
-            ]),
-          ]
-        ),
-      ]
-    )
-  },
-]
+    ],
+    1
+  )
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

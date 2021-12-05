@@ -22,11 +22,14 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::delete('/products/{id}',[ProductController::class,'destroy']);
     Route::put('/products/{id}',[ProductController::class,'update']);
     Route::post('/logout',[AuthController::class,'logout']);
-    Route::get("/products",[ProductController::class,'index']);
 });
 //public routes:)
 Route::get('/products/{id}',[ProductController::class,'show']);
 Route::get('/products/search/{name}',[ProductController::class,'search']);
+Route::get('/productsSpecialls',[ProductController::class,'productSpecialls']);
+
+Route::get("/products",[ProductController::class,'index']);
+
 
 //public users
 Route::post('/register',[AuthController::class,'register']);

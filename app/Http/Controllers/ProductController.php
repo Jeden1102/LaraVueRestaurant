@@ -16,6 +16,17 @@ class ProductController extends Controller
         return Product::all();
     }
 
+        /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function productSpecialls()
+    {
+        return Product::all()->where('special',1)->take(3);
+    }
+
+
     /**
      * Store a newly created resource in storage.
      *

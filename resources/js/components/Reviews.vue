@@ -29,7 +29,7 @@
             <div class="swiper-container  my-2 overflow-hidden">
                 <div id="example">
                 <carousel-3d  :perspective="0" :space="250" :display="3">
-                    <slide class="border-white shadow-lg bg-white flex items-center justify-center"  v-for="(slide, i) in slides" :index="i" :key="id">
+                    <slide class="border-white shadow-lg bg-white flex items-center justify-center"  v-for="(slide, i) in slides" :index="i" :key="i">
                         <div class="flex w-full h-full items-center justify-center flex-col p-4 text-center">
                             <h3 class="title other-font">John Doe</h3>
                             <p>Best restaurant I've ever was in. The food is brilliant, waiterer and waitress nice and funny :) Definetly would recommend this place!</p>
