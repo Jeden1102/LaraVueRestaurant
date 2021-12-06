@@ -29,7 +29,8 @@
             Register
             </button>
         </form>
-    </div>
+
+   </div>
     </div>
 </template>
 <script>
