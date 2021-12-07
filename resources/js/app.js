@@ -18,6 +18,10 @@ Vue.use(Vuex)
 Vue.use(VueAxios, axios)
 //botstrap
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+//velidate
+import Vuelidate from 'vuelidate'
+Vue.use(Vuelidate)
+
 
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 import 'bootstrap/dist/css/bootstrap.css'
