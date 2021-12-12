@@ -4,31 +4,51 @@
             <img  src="/images/cooking.svg" alt="">
         </div>
     <div class=" w-full md:w-1/2 col-6 mx-auto mt-4">
-        <form>
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input v-model="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Name</label>
-                <input v-model="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input v-model="password" type="password" class="form-control" id="exampleInputPassword1">
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Confirm password</label>
-                <input v-model="confPassword" type="password" class="form-control" id="exampleInputPassword1">
-            </div>
 
+                        <form @submit.prevent="handleSubmit">
+                            <div class="form-group">
+                                <label for="name"> Name</label>
+                                <input type="text" v-model="user.name" id="name" name="name" class="form-control" :class="{ 'is-invalid': submitted && $v.user.name.$error }" />
+                                <div v-if="submitted && !$v.user.name.required" class="invalid-feedback">Name is required</div>
+                                <div v-if="submitted && !$v.user.name.minLength" class="invalid-feedback">Name has to be at least 4 characters long</div>
+                            </div>
 
-            <button @click.prevent="loginUser" type="submit" class="p-2 mx-2  inline-flex items-center  border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            <i class="fas fa-sign-in-alt mr-2"></i>
-            Register
-            </button>
-        </form>
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" v-model="user.email" id="email" name="email" class="form-control" :class="{ 'is-invalid': submitted && $v.user.email.$error }" />
+                                <div v-if="submitted && $v.user.email.$error" class="invalid-feedback">
+                                    <span v-if="!$v.user.email.required">Email is required</span>
+                                    <span v-if="!$v.user.email.email">Email is invalid</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" v-model="user.password" id="password" name="password" class="form-control" :class="{ 'is-invalid': submitted && $v.user.password.$error }" />
+                                <div v-if="submitted && $v.user.password.$error" class="invalid-feedback">
+                                    <span v-if="!$v.user.password.required">Password is required</span>
+                                    <span v-if="!$v.user.password.minLength">Password must be at least 6 characters</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirmPassword">Confirm Password</label>
+                                <input type="password" v-model="user.confirmPassword" id="confirmPassword" name="confirmPassword" class="form-control" :class="{ 'is-invalid': submitted && $v.user.confirmPassword.$error }" />
+                                <div v-if="submitted && $v.user.confirmPassword.$error" class="invalid-feedback">
+                                    <span v-if="!$v.user.confirmPassword.required">Confirm Password is required</span>
+                                    <span v-else-if="!$v.user.confirmPassword.sameAsPassword">Passwords must match</span>
+                                </div>
+                            </div>
+                                        <div   v-if="errorMsg" class="alert alert-warning" role="alert">
+                                            <ul>
+                                                <li v-for="error in errorMsg">{{error[0]}}</li>
+                                            </ul>
+                                        </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary">Register</button>
+                            </div>
+                        </form>
+
+        </div>
+    </div>
 
    </div>
     </div>
@@ -36,7 +56,7 @@
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
-
+import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
 
     export default {
             computed: {
@@ -47,21 +67,41 @@ import { mapState } from 'vuex';
     },
         data(){
             return{
-                email :'',
-                password:'',
-                confPassword:'',
-                name:'',
-                returnData:[]
+                user: {
+                    name: "",
+                    email: "",
+                    password: "",
+                    confirmPassword: ""
+                },
+                submitted: false,
+                errorMsg : null
+            }
+        },
+                validations: {
+            user: {
+                name: { required,minLength: minLength(4) },
+                email: { required, email },
+                password: { required, minLength: minLength(6) },
+                confirmPassword: { required, sameAsPassword: sameAs('password') }
             }
         },
         methods: {
-            loginUser(){
+            handleSubmit(e){
+
+                           this.submitted = true;
+
+                // stop here if form is invalid
+                this.$v.$touch();
+                if (this.$v.$invalid) {
+                    return;
+                }
+
                 let self = this;
                 axios.post('/api/register', {
-                email: this.email,
-                password: this.password,
-                password_confirmation : this.confPassword,
-                name : this.name,
+                email: this.user.email,
+                password: this.user.password,
+                password_confirmation : this.user.confirmPassword,
+                name : this.user.name,
             })
             .then(function (response) {
                 self.returnData = response.data;
@@ -69,10 +109,12 @@ import { mapState } from 'vuex';
                 self.$store.commit("setUserData",response.data);
                 localStorage.setItem('logged', true);
                 localStorage.setItem('userData', JSON.stringify(response.data));
-                self.$router.push('account');
+                self.$router.push('/?registered');
             })
             .catch(function (error,response) {
-                self.returnData = error.response.data;
+
+                self.errorMsg = error.response.data.errors;
+                console.log(self.errorMsg);
             });
             }
         },

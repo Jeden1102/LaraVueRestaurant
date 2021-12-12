@@ -22,6 +22,7 @@ export default new Vuex.Store({
           state.logged  = !state.logged
       },
       setUserData(state,userInfo){
+        state.userData = null;
           state.userData = userInfo;
       },
             changeCart(state){

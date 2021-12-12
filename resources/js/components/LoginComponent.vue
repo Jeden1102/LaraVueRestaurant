@@ -4,30 +4,39 @@
             <img  src="/images/hamburger.svg" alt="">
         </div>
     <div class="w-full md:w-1/2  mx-auto mt-4">
-        <form>
-            <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">Email address</label>
-                <input v-model="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-            </div>
-            <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">Password</label>
-                <input v-model="password" type="password" class="form-control" id="exampleInputPassword1">
-            </div>
-            <button @click.prevent="loginUser" type="submit" class="p-2  inline-flex items-center  border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-yellow-600 hover:bg-yellow-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            <i class="fas fa-sign-in-alt mr-2"></i>
-            Login
-            </button>
-            <button @click.prevent="loginUser" type="submit" class="p-2 mx-2  inline-flex items-center  border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-            <router-link to=/register class="text-white" >Register</router-link>
-            </button>
-        </form>
+                        <form @submit.prevent="handleSubmit">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input type="email" v-model="user.email" id="email" name="email" class="form-control" :class="{ 'is-invalid': submitted && $v.user.email.$error }" />
+                                <div v-if="submitted && $v.user.email.$error" class="invalid-feedback">
+                                    <span v-if="!$v.user.email.required">Email is required</span>
+                                    <span v-if="!$v.user.email.email">Email is invalid</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Password</label>
+                                <input type="password" v-model="user.password" id="password" name="password" class="form-control" :class="{ 'is-invalid': submitted && $v.user.password.$error }" />
+                                <div v-if="submitted && $v.user.password.$error" class="invalid-feedback">
+                                    <span v-if="!$v.user.password.required">Password is required</span>
+                                    <span v-if="!$v.user.password.minLength">Password must be at least 6 characters</span>
+                                </div>
+                            </div>
+
+                                        <div   v-if="errorMsg" class="alert alert-warning" role="alert">
+                                            {{ errorMsg }}
+                                        </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary">Login</button>
+                            </div>
+                        </form>
     </div>
     </div>
 </template>
 <script>
 import axios from 'axios';
 import { mapState } from 'vuex';
+import { required, email, minLength, sameAs } from "vuelidate/lib/validators";
+
 
     export default {
             computed: {
@@ -38,17 +47,36 @@ import { mapState } from 'vuex';
     },
         data(){
             return{
-                email :'',
-                password:'',
-                returnData:[]
+                user: {
+                    email: "",
+                    password: "",
+                },
+                submitted: false,
+                errorMsg : null
+            }
+            
+        },
+                validations: {
+            user: {
+                email: { required, email },
+                password: { required, minLength: minLength(6) },
             }
         },
         methods: {
-            loginUser(){
+            handleSubmit(e){
+
+                           this.submitted = true;
+
+                // stop here if form is invalid
+                this.$v.$touch();
+                if (this.$v.$invalid) {
+                    return;
+                }
+
                 let self = this;
                 axios.post('/api/login', {
-                email: this.email,
-                password: this.password
+                email: this.user.email,
+                password: this.user.password,
             })
             .then(function (response) {
                 self.returnData = response.data;
@@ -56,10 +84,12 @@ import { mapState } from 'vuex';
                 self.$store.commit("setUserData",response.data);
                 localStorage.setItem('logged', true);
                 localStorage.setItem('userData', JSON.stringify(response.data));
-                self.$router.push('account');
+                self.$router.push('/?logged');
             })
             .catch(function (error,response) {
-                self.returnData = error.response.data;
+
+                self.errorMsg = error.response.data.message
+                console.log(self.errorMsg);
             });
             }
         },

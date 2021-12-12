@@ -10,10 +10,12 @@ class AuthController extends Controller
 {
     public function register(Request $req){
         $fields = $req->validate([
-            'name'=>'required|string',
+            'name'=>'required|string|unique:users',
             'email'=>'required|string|unique:users,email',
             'password'=>'required|string|confirmed',
         ]);
+
+
         $user = User::create([
             'name'=>$fields['name'],
             'email'=>$fields['email'],
@@ -37,7 +39,7 @@ class AuthController extends Controller
         //check pwd
         if(!$user || !Hash::check($fields['password'],$user->password)){
             $response = [
-                'message'=>"BAD CREDENTIALS:(",
+                'message'=>"Upss...your credentials didn't matched our records. Try Again!",
             ];
             return response($response,401);
 

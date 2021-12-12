@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 class ProductController extends Controller
 {
     /**
@@ -16,6 +16,10 @@ class ProductController extends Controller
         return Product::all();
     }
 
+    public function showCategories()
+    {
+        return DB::table("categories")->get();
+    }
         /**
      * Display a listing of the resource.
      *

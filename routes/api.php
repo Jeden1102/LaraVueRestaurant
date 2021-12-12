@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\editAccount;
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -22,13 +23,20 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::delete('/products/{id}',[ProductController::class,'destroy']);
     Route::put('/products/{id}',[ProductController::class,'update']);
     Route::post('/logout',[AuthController::class,'logout']);
+    //USER INFO EDIT
+    Route::post('/editGeneral',[editAccount::class,'general']);
+    Route::post('/editDelivery',[editAccount::class,'deliveryInfo']);
+    Route::post('/pwdChange',[editAccount::class,'pwdChange']);
+
 });
+
 //public routes:)
 Route::get('/products/{id}',[ProductController::class,'show']);
 Route::get('/products/search/{name}',[ProductController::class,'search']);
 Route::get('/productsSpecialls',[ProductController::class,'productSpecialls']);
 
 Route::get("/products",[ProductController::class,'index']);
+Route::get("/showCategories",[ProductController::class,'showCategories']);
 
 
 //public users
