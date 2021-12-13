@@ -27,6 +27,7 @@ class productSeed extends Seeder
                 'image_url'=>Str::random(10).".jpg",
                 'vegan'=>rand(0,1),
                 'cheese'=>rand(0,1),
+                'category_id'=>rand(0,10),
                 'tomato'=>rand(0,1),
                 'paprika'=>rand(0,1),
                 'chicken'=>rand(0,1),

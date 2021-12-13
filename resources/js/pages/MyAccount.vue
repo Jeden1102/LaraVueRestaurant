@@ -36,7 +36,8 @@
                             <div class="form-group">
                                 <button class="btn btn-primary">Set</button>
                             </div>
-                            {{ info }}
+                           <b-alert v-if="info" show variant="success">{{ info }}</b-alert>
+                            
                                                                     <div   v-if="errorMsg" class="alert alert-warning" role="alert">
                                             <ul>
                                                 <li v-for="error in errorMsg">{{error[0]}}</li>
@@ -82,8 +83,8 @@
                                 </div>
                             </div>
 
-                                        <div   v-if="errorMsg" class="alert alert-warning" role="alert">
-                                            {{ errorMsg }}
+                                        <div   v-if="deliveryInfo" class="alert alert-success" role="alert">
+                                            {{ deliveryInfo }}
                                         </div>
                             <div class="form-group">
                                 <button class="btn btn-primary">Set</button>
@@ -119,7 +120,9 @@
                                     <span v-else-if="!$v.changePassword.confirmPassword.sameAsPassword">Passwords must match</span>
                                 </div>
                             </div>
-                            {{ pwdInfo }}
+                                        <div   v-if="pwdInfo" class="alert alert-success" role="alert">
+                                            {{ pwdInfo }}
+                                        </div>
                             <div class="form-group">
                                 <button class="btn btn-primary">Change</button>
                             </div>
@@ -148,7 +151,9 @@ export default {
             info : null,
             data:null,
             errorMsg : null,
+            deliveryMsg:null,
             pwdInfo : null,
+            deliveryInfo:null,
             //user info
                 user: {
                     email: "",
@@ -187,8 +192,9 @@ export default {
                 this.submitted = true;
                 let self= this;
                 // stop here if form is invalid
-                this.$v.user.$touch();
-                if (this.$v.user.$invalid) {
+                this.$v.user.name.$touch();
+                this.$v.user.email.$touch();
+                if (this.$v.user.name.$invalid || this.$v.user.name.$invalid ) {
                     return;
                 }
                 //ok
@@ -213,6 +219,7 @@ export default {
                 self.reloadUserData();
             })
             .catch((err,response) => {
+                self.info = null;
                 self.errorMsg = err.response.data.errors;
 
             })
@@ -245,14 +252,14 @@ export default {
             };
             axios.post('/api/editDelivery', postData, axiosConfig)
             .then((res) => {
-                self.errorMsg = null;
-                self.info = res.data.info;
+                self.deliveryInfo = null;
+                self.deliveryInfo = res.data.info;
                 self.$store.commit("setUserData",res.data);
                 localStorage.setItem('userData', JSON.stringify(res.data));
                 self.reloadUserData();
             })
             .catch((err,response) => {
-                self.errorMsg = err.response.data.errors;
+                self.deliveryMsg = err.response.data.errors;
             })
             },
             handlePassword(e){

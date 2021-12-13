@@ -16,7 +16,6 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('image_url');
             $table->string('desc')->nullable();
             $table->decimal('price')->nullable();
             $table->boolean('vegan')->default(false);

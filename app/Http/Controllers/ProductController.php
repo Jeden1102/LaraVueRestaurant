@@ -18,8 +18,9 @@ class ProductController extends Controller
 
     public function showCategories()
     {
-        return DB::table("categories")->get();
+        return DB::table("categories")->orderBy('id','asc')->get();
     }
+
         /**
      * Display a listing of the resource.
      *

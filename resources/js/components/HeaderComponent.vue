@@ -30,7 +30,7 @@
                 </li>
             </ul>
         </div>
-        <button class="w-16 h-16 bg-yellow-600 text-white flex items-center justify-center bg-red-200 rounded-full"  @click="changeCart"><i class="fas fa-shopping-basket text-2xl mx-8 cart-icon"></i></button>
+        <button class="w-10 h-10 bg-yellow-600 text-white flex items-center justify-center bg-red-200 rounded-full"  @click="changeCart"><i class="fas fa-shopping-basket text-2xl mx-8 cart-icon"></i></button>
         
         </nav>
 </template>
