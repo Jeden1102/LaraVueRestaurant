@@ -18,7 +18,6 @@ class productSeed extends Seeder
         $sizes = ['small','medium','large','x-large'];
         for($i=0;$i<50;$i++){
             DB::table('products')->insert([
-                'id'=>null,
                 'name' => Str::random(10),
                 'special' => rand(0,1),
                 'desc'=> Str::random(50),

@@ -25,7 +25,6 @@ class categoriesSeeder extends Seeder
         ];
         for($i=0;$i<6;$i++){
             DB::table('categories')->insert([
-                'id'=>null,
                 'name' => $categories[$i],
                 'category_img'=>$categories[$i].".png",
                 'created_at' => date("Y-m-d H:i:s"),
