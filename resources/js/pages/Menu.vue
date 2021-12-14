@@ -1,5 +1,8 @@
 <template>
-    <div class="container">
+    <div class="container relative">
+        <div v-if="loading" class="w-screen h-screen bg-gray-200 bg-opacity-75 absolute top-0 left-0 z-50 flex items-center justify-center">
+        <b-spinner variant="primary" label="Text Centered"></b-spinner>
+        </div>
         <h2 class="my-4">Pick your favourite food and enjoy the meal !</h2>
      <!--FILTER -->
         <div class="my-4">
@@ -28,7 +31,9 @@
                     </div>
 
                     </div>
-
+                    <div class="w-full my-2 flex items-center">
+                        <b-button @click="resetFilters" class="mx-auto" variant="info">Reset filters</b-button>
+                    </div>
                 </b-card>
             </b-collapse>
         </div>
@@ -37,17 +42,26 @@
 
         <b-card no-body>
             <b-tabs pills card horizontal>
-            <b-tab v-for="category in productsByCategory" :key="category.id" :title="category.name" active><b-card-text>
+            <b-tab v-for="category in productsByCategory" :key="category.id"  active>
+                <template #title>
+                {{category.name.toUpperCase()}} <img class="h-8 w-8 mx-auto" :src="'/images/categories_icons/' + category.img" />
+            </template>
+            <b-card-text>
                 <hr>
                 <h3>Products list of {{category.name}} category : </h3>
                 <div class="flex flex-wrap justify-center items-center">
-                    <div class="p-2 m-2  hover:bg-gray-100 cursor-pointer rounded shadow w-52  relative " v-for="product in category.products" :key="product.id" :title="product.name">
-                    <img class="h-3/4 w-full" src="/images/pizza-home.png"/>
+                
+                    <b-alert v-if="category.amount == 0" show variant="primary">Sorry...there's nothing to show...consider changing the filters.
+                        <b-button @click="resetFilters" class="mx-auto" variant="info">Reset filters</b-button>
+                    </b-alert>
+                    <div v-else class="p-2 m-2  hover:bg-gray-100 cursor-pointer rounded shadow w-52 h-80  relative " v-for="product in category.products" :key="product.id" :title="product.name">
+                    <img class="h-1/2 w-full" src="/images/pizza-home.png"/>
                     <p class="font-bold">{{product.name}}</p>
                     <p>{{product.price}}$</p>
-                    <p>tom : {{product.tomato}}</p>
-                    <p>ch : {{product.chicken}}</p>
-                    <p>bef : {{product.beaf}}</p>
+                    <div v-for="addon in addonsBase" >
+                        <b-badge v-if="product[addon] == 1" variant="secondary">{{addon}}</b-badge>
+                    </div>
+                        <b-badge class="absolute top-2 left-2"  variant="primary">{{product.size}}</b-badge>
                     <button type="button" class="text-white absolute right-2 bottom-2  bg-yellow-600 hover:bg-yellow        focus:ring-4        focus:ring-green-300 font-medium rounded-lg text-sm p-2.5 text-center  dark:bg-green    dark:hover:b     g-green-700       dark:focus:ring-green-800 font-bold"><i class="far fa-eye"></i>Show</button>       
                     <button type="button" class="text-white absolute right-2 top-2   bg-green-700 hover:        bg-green-800 focus:ring-4       focus:ring-green-300 font-medium rounded-lg text-sm p-2.5 text-center  dark:bg-green    -600 dark:hover:bg-green-700      dark:focus:ring-green-800 font-bold"><i class="fas fa-cart-plus"></i></button>      
                     </div>      
@@ -70,34 +84,55 @@
                 productsByCategory:[],
                 addonsBase : ["tomato","cheese","paprika","beef","chicken"],
                 addonsFilters : ["tomato","cheese","paprika","beef","chicken"],
+                addonsToFilter:[],
                 sizeBase : ["small","medium","large","x-large"],
                 sizeFilters : ["small","medium","large","x-large"],
+                sizeToFilter:[],
                 min:null,
                 max:null,
-
-
+                loading:true,
             }
         },
         methods:{
             filterProducts(){
+                this.addonsToFilter = this.addonsBase.filter(n => !this.addonsFilters.includes(n))
+                this.sizeToFilter = this.sizeBase.filter(n => !this.sizeFilters.includes(n))
                 this.productsByCategory = [];
 
                 this.categoryList.forEach((el)=>{
                     this.max = this.max=="" ? null : this.max;
                     let filtered = this.productList.filter(product => product.category_id ==  el.id);
+                    //min price
                     filtered = filtered.filter(product=>Number(product.price) >= Number(this.min));
+                    //max price
                     filtered = this.max != null ? filtered.filter(product=>Number(product.price) <= Number(this.max)) : filtered;
+                    //addons filter
+                    this.addonsToFilter.forEach((addon)=>{
+                        filtered = filtered.filter(product=>product[addon] == 0);
+                    })
+                    //size filter
+                    this.sizeToFilter.forEach((size)=>{
+                        filtered = filtered.filter(product=>product.size != size);
+                    })
+
 
 
                     let productsObj = {
                         id:el.id,
+                        img:el.category_img,
                         name : el.name,
                         products:filtered,
                         amount : filtered.length
                     }
                     this.productsByCategory.push(productsObj);
                 })
-                console.log(this.productsByCategory);
+            },
+            resetFilters(){
+                this.addonsFilters = this.addonsBase;
+                this.sizeFilters = this.sizeBase;
+                this.max = null;
+                this.min = null;
+                this.filterProducts();
             }
         },
         mounted(){
@@ -116,22 +151,14 @@
             axios.get('/api/products')
             .then(function (response) {
                 self.productList = response.data;
-                // console.log(self.categoryList);
-                self.categoryList.forEach((el)=>{
-                    let filtered = self.productList.filter(product => product.category_id ==  el.id);
-                    let productsObj = {
-                        id:el.id,
-                        name : el.name,
-                        products:filtered,
-                        amount : filtered.length
-                    }
-                    self.productsByCategory.push(productsObj);
-                })
+                self.loading = false;
+
             })
             .catch(function (error) {
                 console.log(error);
             })
             .then(function () {
+            self.filterProducts();
             });
             //check
 

@@ -15,6 +15,7 @@ class productSeed extends Seeder
      */
     public function run()
     {
+        $sizes = ['small','medium','large','x-large'];
         for($i=0;$i<50;$i++){
             DB::table('products')->insert([
                 'id'=>null,
@@ -27,11 +28,12 @@ class productSeed extends Seeder
                 'image_url'=>Str::random(10).".jpg",
                 'vegan'=>rand(0,1),
                 'cheese'=>rand(0,1),
-                'category_id'=>rand(0,10),
+                'category_id'=>rand(11,16),
                 'tomato'=>rand(0,1),
                 'paprika'=>rand(0,1),
                 'chicken'=>rand(0,1),
-                'beaf'=>rand(0,1),
+                'beef'=>rand(0,1),
+                'size'=>$sizes[rand(0,3)],
             ]);
         }
     }

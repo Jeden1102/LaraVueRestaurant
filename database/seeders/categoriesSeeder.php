@@ -15,11 +15,19 @@ class categoriesSeeder extends Seeder
      */
     public function run()
     {
-        for($i=0;$i<10;$i++){
+        $categories = [
+            'pizza',
+            'burgery',
+            'wrapy',
+            'napoje',
+            'dodatki',
+            'taco'
+        ];
+        for($i=0;$i<6;$i++){
             DB::table('categories')->insert([
                 'id'=>null,
-                'name' => Str::random(10),
-                'category_img'=>Str::random(10).".jpg",
+                'name' => $categories[$i],
+                'category_img'=>$categories[$i].".png",
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s"),
             ]);
