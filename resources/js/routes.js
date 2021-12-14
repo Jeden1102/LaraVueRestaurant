@@ -4,6 +4,7 @@ import Register from './components/RegisterComponent.vue'
 import MyAccount from './pages/MyAccount.vue'
 import HomePage from './pages/HomePage.vue'
 import Menu from './pages/Menu.vue'
+import Product from './pages/Product.vue'
 
 export const routes = [
     {
@@ -29,5 +30,9 @@ export const routes = [
     {
 		path:'/menu',
         component: Menu
+    },
+    {
+		path:'/product/:id',
+        component: Product
     }
 ];

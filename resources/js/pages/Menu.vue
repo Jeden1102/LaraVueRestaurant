@@ -1,11 +1,12 @@
 <template>
-    <div class="container relative">
-        <div v-if="loading" class="w-screen h-screen bg-gray-200 bg-opacity-75 absolute top-0 left-0 z-50 flex items-center justify-center">
-        <b-spinner variant="primary" label="Text Centered"></b-spinner>
-        </div>
+    <div class="container ">
+<a href="/product/12">GO</a>
         <h2 class="my-4">Pick your favourite food and enjoy the meal !</h2>
      <!--FILTER -->
-        <div class="my-4">
+        <div class="my-4 relative">
+                <div v-if="loading" class="w-full h-96 bg-gray-200 bg-opacity-75 absolute top-0 left-0 z-50 flex items-center justify-center">
+        <b-spinner variant="primary" label="Text Centered"></b-spinner>
+        </div>
             <b-button  v-b-toggle.collapse-1 variant="primary"><i class="fas fa-filter"></i></b-button>
             <b-collapse id="collapse-1" class="mt-2">
                 <b-card >
@@ -62,7 +63,7 @@
                         <b-badge v-if="product[addon] == 1" variant="secondary">{{addon}}</b-badge>
                     </div>
                         <b-badge class="absolute top-2 left-2"  variant="primary">{{product.size}}</b-badge>
-                    <button type="button" class="text-white absolute right-2 bottom-2  bg-yellow-600 hover:bg-yellow        focus:ring-4        focus:ring-green-300 font-medium rounded-lg text-sm p-2.5 text-center  dark:bg-green    dark:hover:b     g-green-700       dark:focus:ring-green-800 font-bold"><i class="far fa-eye"></i>Show</button>       
+                    <a type="button" :href="'/product/' + product.id" class="text-white absolute right-2 bottom-2  bg-yellow-600 hover:bg-yellow        focus:ring-4        focus:ring-green-300 font-medium rounded-lg text-sm p-2.5 text-center  dark:bg-green    dark:hover:b     g-green-700       dark:focus:ring-green-800 font-bold"><i class="far fa-eye"></i>Show</a>       
                     <button type="button" class="text-white absolute right-2 top-2   bg-green-700 hover:        bg-green-800 focus:ring-4       focus:ring-green-300 font-medium rounded-lg text-sm p-2.5 text-center  dark:bg-green    -600 dark:hover:bg-green-700      dark:focus:ring-green-800 font-bold"><i class="fas fa-cart-plus"></i></button>      
                     </div>      
                 </div>
