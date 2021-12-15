@@ -8,6 +8,7 @@ export default new Vuex.Store({
     logged: false,
     userData:null,
     showCart:false,
+    cartItems:[]
   },
   mutations: {
     initialiseStore(state) {
@@ -17,6 +18,9 @@ export default new Vuex.Store({
     if(localStorage.getItem('userData')) {
         state.userData = JSON.parse(localStorage.getItem('userData'));
       }
+      if(localStorage.getItem('basket')) {
+        state.cartItems = JSON.parse(localStorage.getItem('basket'));
+      }
     },
       updateLogged(state){
           state.logged  = !state.logged
@@ -25,9 +29,12 @@ export default new Vuex.Store({
         state.userData = null;
           state.userData = userInfo;
       },
-            changeCart(state){
+      changeCart(state){
           state.showCart  = !state.showCart
       },
+      addItemToCart(state,product){
+        state.cartItems.push(product);
+      }
     // updateCharacter(state, choice) {
     //   state.character = choice
     // },

@@ -28,9 +28,13 @@
                     <button @click="logoutUser" type="submit"  class="btn btn-primary">Logout</button>
                     
                 </li>
+                
             </ul>
         </div>
-        <button class="w-10 h-10 bg-yellow-600 text-white flex items-center justify-center bg-red-200 rounded-full"  @click="changeCart"><i class="fas fa-shopping-basket text-2xl mx-8 cart-icon"></i></button>
+        <button class="w-10 h-10 bg-yellow-600 text-white flex items-center justify-center bg-red-200 rounded-full relative"  @click="changeCart">
+        <i class="fas fa-shopping-basket text-2xl mx-8 cart-icon"></i>
+        <span class="bg-blue-500 font-bold rounded-full w-6 h-6 text-white absolute left-4 top-8">{{itemLength}}</span>
+        </button>
         
         </nav>
 </template>
@@ -46,6 +50,14 @@ export default {
     },
     cart(){
       return this.$store.state.showCart;
+    },
+        itemLength(){
+          let items = this.$store.state.cartItems;
+          let len = 0;
+          items.forEach(el=>{
+            len += el.quantity;
+          })
+          return len;
     }
   },
     methods:{
