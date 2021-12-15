@@ -63,7 +63,7 @@
                     </div>
                         <b-badge class="absolute top-2 left-2"  variant="primary">{{product.size}}</b-badge>
                     <a type="button" :href="'/product/' + product.id" class="text-white absolute right-2 bottom-2  bg-yellow-600 hover:bg-yellow        focus:ring-4        focus:ring-green-300 font-medium rounded-lg text-sm p-2.5 text-center  dark:bg-green    dark:hover:b     g-green-700       dark:focus:ring-green-800 font-bold"><i class="far fa-eye"></i>Show</a>       
-                    <button type="button" class="text-white absolute right-2 top-2   bg-green-700 hover:        bg-green-800 focus:ring-4       focus:ring-green-300 font-medium rounded-lg text-sm p-2.5 text-center  dark:bg-green    -600 dark:hover:bg-green-700      dark:focus:ring-green-800 font-bold"><i class="fas fa-cart-plus"></i></button>      
+                    <button @click="addToCart(product)" type="button" class="text-white absolute right-2 top-2   bg-green-700 hover:bg-green-800 focus:ring-4       focus:ring-green-300 font-medium rounded-lg text-sm p-2.5 text-center  dark:bg-green    -600 dark:hover:bg-green-700      dark:focus:ring-green-800 font-bold"><i class="fas fa-cart-plus"></i></button>      
                     </div>      
                 </div>
 
@@ -133,7 +133,29 @@
                 this.max = null;
                 this.min = null;
                 this.filterProducts();
+            },
+            addToCart(product){
+            let addonsList = [];
+            this.addonsBase.forEach(addon=>{
+                if(product[addon] == 1){
+                    addonsList.push(addon);
+                }
+            })
+            let productToBasket = {
+                name:product.name,
+                id : product.id,
+                quantity : 1,
+                size: product.size,
+                addons:addonsList,
+                price:product.price,
+                image:product.image_url,
+                product_id : Math.random().toString(36).slice(2)
             }
+            this.$store.commit('addItemToCart',productToBasket);
+            var oldItems = JSON.parse(localStorage.getItem('basket')) || [];
+            oldItems.push(productToBasket);
+            localStorage.setItem('basket', JSON.stringify(oldItems));
+        }
         },
         mounted(){
             let self = this;

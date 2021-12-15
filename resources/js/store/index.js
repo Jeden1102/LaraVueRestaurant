@@ -34,6 +34,9 @@ export default new Vuex.Store({
       },
       addItemToCart(state,product){
         state.cartItems.push(product);
+      },
+      clearCart(state){
+        state.cartItems = [];
       }
     // updateCharacter(state, choice) {
     //   state.character = choice

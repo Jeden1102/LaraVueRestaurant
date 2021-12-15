@@ -41,7 +41,7 @@
                       <div>
                         <div class="flex justify-between text-base font-medium text-gray-900">
                           <h3>
-                            <a class="" href="#">
+                            <a class="" :href="'/product/' + product.id">
                               {{product.name}}
                             </a>
                           </h3>
@@ -76,7 +76,6 @@
               </div>
             </div>
           </div>
-
           <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
             <div class="flex justify-between text-base font-medium text-gray-900">
               <p>Subtotal</p>
@@ -88,7 +87,7 @@
             </div>
             <div class="mt-6 flex justify-center text-sm text-center text-gray-500">
               <p>
-                or <button type="button" class="text-indigo-600 font-medium hover:text-indigo-500">Continue Shopping<span aria-hidden="true"> &rarr;</span></button>
+                or <button @click="changeCart" type="button" class="text-indigo-600 font-medium hover:text-indigo-500">Continue Shopping<span aria-hidden="true"> &rarr;</span></button>
               </p>
             </div>
           </div>
@@ -128,6 +127,11 @@ import { mapState } from 'vuex';
         methods:{
             removeItem(id){
               console.log(id);
+             let items = this.cartItems;
+             items =  items.filter(product => product.product_id != id);
+            this.$store.state.cartItems = items;
+            localStorage.removeItem('basket');
+            localStorage.setItem('basket', JSON.stringify(items));
             },
             changeCart(){
             this.$store.commit('changeCart');
