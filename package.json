@@ -25,6 +25,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "@vue-stripe/vue-stripe": "^4.2.9",
         "bootstrap-vue": "^2.21.2",
         "swiper": "^7.3.1",
         "vform": "^2.1.2",

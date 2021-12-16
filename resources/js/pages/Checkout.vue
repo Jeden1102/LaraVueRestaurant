@@ -1,35 +1,54 @@
 <template>
-    <div>
-        <!-- This example requires Tailwind CSS v2.0+ -->
-<transition name="fade">
+    <div class="container justify-center  flex flex-col sm:flex-row">
+        <!--form-->
+        <div>
+            <b-card bg-variant="light">
+                <b-form-group
+                    label="Street:"
+                    label-for="nested-street"
+                    label-cols-sm="3"
+                    label-align-sm="right"
+                >
+                    <b-form-input id="nested-street"></b-form-input>
+                </b-form-group>
 
-<div  v-if="showCart" class="fixed inset-0 overflow-hidden  z-30" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
-  <div class="absolute inset-0  overflow-hidden ">
+                <b-form-group
+                    label="City:"
+                    label-for="nested-city"
+                    label-cols-sm="3"
+                    label-align-sm="right"
+                >
+                    <b-form-select v-model="delivery.city" :options="cities"></b-form-select>
+                </b-form-group>
+                {{delivery.city}}
+                <b-form-group
+                    label="Number:"
+                    label-for="nested-state"
+                    label-cols-sm="3"
+                    label-align-sm="right"
+                >
+                    <b-form-input id="nested-state"></b-form-input>
+                </b-form-group>
 
-    <div class="absolute inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
-    <transition name="test">
+                <b-form-group
+                    label="Phone:"
+                    label-for="nested-country"
+                    label-cols-sm="3"
+                    label-align-sm="right"
+                >
+                    <b-form-input id="nested-country"></b-form-input>
+                </b-form-group>
 
-    <div v-if="showCart" class="fixed inset-y-0 right-0 pl-10 max-w-full  transform transition ease-in-out duration-500 sm:duration-700  flex">
+            </b-card>
+        </div>
+                <!--cart summary-->
+        <div>
+            <b-card bg-variant="light">
 
       <div class="w-screen max-w-md">
-        <div class="h-full flex flex-col bg-white shadow-xl overflow-y-scroll">
-          <div class="flex-1 py-6 overflow-y-auto px-4 sm:px-6">
-            <div class="flex items-start justify-between">
-              <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">
-                Shopping cart
-              </h2>
-              <div class="ml-3 h-7 flex items-center">
-                <button @click="changeCart"  type="button" class="-m-2 p-2 text-gray-400 hover:text-gray-500">
-                  <span class="sr-only">Close panel</span>
-                  <!-- Heroicon name: outline/x -->
-                  <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <div class="mt-8">
+        <div class="h-full flex flex-col bg-white shadow-xl overflow-y-scroll ">
+          <div class="flex-1 py-6  px-4 sm:px-6">
+            <div class="">
               <div class="flow-root">
                 <ul role="list" class="-my-6 divide-y divide-gray-200">
                   <li class="py-6 flex" v-for="product in cartItems" :key="product">
@@ -69,9 +88,6 @@
                       </div>
                     </div>
                   </li>
-
-                  
-                  <!-- More products... -->
                 </ul>
               </div>
             </div>
@@ -92,82 +108,51 @@
             </div>
           </div>
         </div>
+
       </div>
+      </b-card>
 
     </div>
-    </transition>
-  </div>
-</div>
-  </transition>
 
     </div>
+
+    
 </template>
 
 <script>
 import { mapState } from 'vuex';
-
-
-    export default {
+export default {
     computed: {
-        ...mapState([
-            'showCart',
-            'cartItems',
-        ]),
-            cart(){
-      return this.$store.state.showCart;
+    ...mapState([
+        'cartItems',
+    ])
     },
-    cartSum(){
-      let sum = 0;
-      this.cartItems.forEach(el=>{
-        sum += el.quantity * el.price;
-      })
-      return sum;
-    }
-    },
-        methods:{
-            removeItem(id){
-              console.log(id);
-             let items = this.cartItems;
-             items =  items.filter(product => product.product_id != id);
-            this.$store.state.cartItems = items;
-            localStorage.removeItem('basket');
-            localStorage.setItem('basket', JSON.stringify(items));
-            },
-            changeCart(){
-            this.$store.commit('changeCart');
-                console.log('ok')
+    data(){
+        return{
+            cities:[
+                {
+                    text:"Siedlec/Otmice/Izbicko",
+                    value: 10,
+                },
+                {
+                    text:"Kamień Sl/Kamionek",
+                    value:0,
+                },
+                {
+                    text:"Kosorowice/Tarnów Opolskie",
+                    value:5
+                },
+            ],
+            delivery:{
+                city:null,
             }
-        },
-              watch: {
-
-        cart(newValue, oldValue) {
-    },
-
-  },
+        }
     }
+}
 </script>
 
 <style lang="scss" scoped>
-a{
-  color:black !important;
-}
-a:hover{
-  color:orange !important;
-  text-decoration:none;
-}
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
-.test-enter-active, .test-leave-active {
-   transform:translateX(0);
-  transition: transform .5s;
 
-}
-.test-enter, .test-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  transform:translateX(100%);
-}
+
 
 </style>
