@@ -134,7 +134,7 @@
   </div>
       </b-card-text>
       </b-tab>
-      <b-tab title="Statistics&History"><b-card-text>Tab contents 2</b-card-text></b-tab>
+      <b-tab active title="Statistics&History"><b-card-text>Tab contents 2</b-card-text></b-tab>
     </b-tabs>
   </b-card>
   
@@ -183,6 +183,8 @@ export default {
     },
     mounted() {
       this.user = this.userData["user"];
+      let x = document.querySelector('#testowy___BV_tab_button__');
+      console.log(x);
     },
     methods:{
         reloadUserData(){
@@ -293,7 +295,7 @@ export default {
             }
 
     },
-                validations: {
+        validations: {
             user: {
                 email: { required, email },
                 name: { required, minLength: minLength(4) },

@@ -73,6 +73,13 @@
           <div class="flex-1 py-6  px-4 sm:px-6">
             <div class="">
               <div class="flow-root">
+              <div v-if="cartItems.length < 1">
+                      <img src="/images/empty_cart.svg" alt="Salmon orange fabric pouch with match zipper, gray zipper pull, and adjustable hip belt." class="w-full h-full object-center object-cover">
+                      <h2 class="my-4 text-center">
+                        Oh no...your cart...it's empty :(
+                      </h2>
+                      <a href="/menu"  class="text-indigo-600 font-light hover:text-indigo-500">You'd better check our amazing food!<span aria-hidden="true"> &rarr;</span></a>
+              </div>
                 <ul role="list" class="-my-6 divide-y divide-gray-200">
                   <li class="py-6 flex" v-for="product in cartItems" :key="product">
                     <div class="flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
@@ -131,11 +138,11 @@
             </div>
             <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes included.</p>
             <div class="mt-6">
-              <b-button :disabled="!orderDetails.street || !orderDetails.number || !orderDetails.phone || !delivery.city || !orderDetails.time || !orderDetails.date"   variant="success" @click="submitOrder">Order now</b-button>
+              <b-button :disabled="!orderDetails.street || !orderDetails.number || !orderDetails.phone || !delivery.city || !orderDetails.time || !orderDetails.date || cartItems.length < 1"   variant="success" @click="submitOrder">Order now</b-button>
             </div>
             <div class="mt-6 flex justify-center text-sm text-center text-gray-500">
               <p>
-                or <button @click="changeCart" type="button" class="text-indigo-600 font-medium hover:text-indigo-500">Continue Shopping<span aria-hidden="true"> &rarr;</span></button>
+                or <a href="/menu"  class="text-indigo-600 font-medium hover:text-indigo-500">Continue Shopping<span aria-hidden="true"> &rarr;</span></a>
               </p>
             </div>
           </div>
@@ -224,14 +231,18 @@ export default {
           products:this.cartItems,
           details:this.orderDetails
         }
+        let self = this;
         axios.post('/api/orders', {
             info: order,
           })
           .then(function (response) {
             console.log(response);
+            self.$store.state.cartItems = [];
+            localStorage.removeItem('basket');
+            self.$router.push({ path: 'account' })
           })
           .catch(function (error) {
-            console.log(error.response.data.message);
+            console.log(error.response);
           });
       }
 

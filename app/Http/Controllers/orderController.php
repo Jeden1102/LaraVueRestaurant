@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\order;
 use App\Models\ordered_product;
-
+use Illuminate\Http\Response;
 class orderController extends Controller
 {
     public function createOrder(Request $req){
+
         $info = $req['info']['details'];
         $products = $req['info']['products'];
         $orderId = order::insertGetId([
@@ -43,7 +44,9 @@ class orderController extends Controller
                 "other_addons" => $addons,
             ]);
         }
-
-        return "ok";
+        $response = [
+            'msg'=>"Order placed succesfully!",
+        ];
+        return response($response,201);
     }
 }
