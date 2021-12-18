@@ -1,5 +1,5 @@
 <template>
-    <div class="container justify-center  flex flex-col sm:flex-row">
+    <div class="container justify-center space-x-2  flex flex-col sm:flex-row">
         <!--form-->
         <div>
             <b-card bg-variant="light">
@@ -9,7 +9,7 @@
                     label-cols-sm="3"
                     label-align-sm="right"
                 >
-                    <b-form-input id="nested-street"></b-form-input>
+                    <b-form-input id="nested-street" v-model="orderDetails.street"></b-form-input>
                 </b-form-group>
 
                 <b-form-group
@@ -18,16 +18,15 @@
                     label-cols-sm="3"
                     label-align-sm="right"
                 >
-                    <b-form-select v-model="delivery.city" :options="cities"></b-form-select>
+                    <b-form-select @change="setCityAndPrice" v-model="delivery.city" :options="cities"></b-form-select>
                 </b-form-group>
-                {{delivery.city}}
                 <b-form-group
                     label="Number:"
                     label-for="nested-state"
                     label-cols-sm="3"
                     label-align-sm="right"
                 >
-                    <b-form-input id="nested-state"></b-form-input>
+                    <b-form-input id="nested-state" v-model="orderDetails.number"></b-form-input>
                 </b-form-group>
 
                 <b-form-group
@@ -36,9 +35,33 @@
                     label-cols-sm="3"
                     label-align-sm="right"
                 >
-                    <b-form-input id="nested-country"></b-form-input>
+                    <b-form-input id="nested-country" v-model="orderDetails.phone"></b-form-input>
                 </b-form-group>
 
+                <b-form-group
+                    label="Comment to order:"
+                    label-for="nested-country"
+                    label-cols-sm="3"
+                    label-align-sm="right"
+                >
+                      <b-form-textarea
+                        id="textarea-no-resize"
+                        placeholder="I like pizza..."
+                        rows="3"
+                        no-resize
+                        v-model="orderDetails.comment"
+                      ></b-form-textarea>
+                </b-form-group>
+                    <label for="example-datepicker">Order date</label>
+                  <b-form-datepicker id="example-datepicker" v-model="orderDetails.date" class="mb-2"></b-form-datepicker>
+                      <label for="timepicker-buttons">Order time</label>
+                      <b-form-timepicker
+                        id="timepicker-buttons"
+                        now-button
+                        reset-button
+                        locale="en"
+                        v-model="orderDetails.time"
+                      ></b-form-timepicker>
             </b-card>
         </div>
                 <!--cart summary-->
@@ -94,12 +117,21 @@
           </div>
           <div class="border-t border-gray-200 py-6 px-4 sm:px-6">
             <div class="flex justify-between text-base font-medium text-gray-900">
-              <p>Subotal</p>
+              <p>Subtotal</p>
               <p>${{cartSum}}</p>
             </div>
-            <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
+            <div v-if="deliveryPrice"  class="flex justify-between text-base font-medium text-gray-900">
+              <p>Delivery</p>
+              <p>${{deliveryPrice}}</p>
+            </div>
+            <hr>
+              <div  class="flex justify-between text-base font-medium text-gray-900">
+              <p>Total</p>
+              <p>${{combinedPrice}}</p>
+            </div>
+            <p class="mt-0.5 text-sm text-gray-500">Shipping and taxes included.</p>
             <div class="mt-6">
-              <a href="/checkout" class="flex justify-center items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-indigo-600 hover:bg-indigo-700">Checkout</a>
+              <b-button :disabled="!orderDetails.street || !orderDetails.number || !orderDetails.phone || !delivery.city || !orderDetails.time || !orderDetails.date"   variant="success" @click="submitOrder">Order now</b-button>
             </div>
             <div class="mt-6 flex justify-center text-sm text-center text-gray-500">
               <p>
@@ -113,7 +145,6 @@
       </b-card>
 
     </div>
-
     </div>
 
     
@@ -121,32 +152,98 @@
 
 <script>
 import { mapState } from 'vuex';
+import axios from 'axios';
 export default {
     computed: {
     ...mapState([
         'cartItems',
-    ])
+        'userData',
+    ]),
+        cartSum(){
+      let sum = 0;
+      this.cartItems.forEach(el=>{
+        sum += el.quantity * el.price;
+      })
+      return sum;
+    },
+    combinedPrice(){
+      return this.cartSum + this.orderDetails.deliveryPrice;
+    }
     },
     data(){
         return{
             cities:[
-                {
-                    text:"Siedlec/Otmice/Izbicko",
-                    value: 10,
-                },
-                {
-                    text:"Kamień Sl/Kamionek",
-                    value:0,
-                },
-                {
-                    text:"Kosorowice/Tarnów Opolskie",
-                    value:5
-                },
+                {price:10,text:"Siedlec",value: 1},
+                {price:12.50,text:"Otmice",value: 2},
+                {price:7.50,text:"Izbicko",value: 3},
+                {price:1,text:"Kamień Sląski",value: 5},
+                {price:1,text:"Kamionek",value: 5},
+                {price:15.50,text:"Tarnów Opolski",value: 6},
             ],
             delivery:{
                 city:null,
+            },
+            userInfo :null,
+            orderDetails:{
+              street:null,
+              number:null,
+              phone:null,
+              comment:null,
+              city:null,
+              deliveryPrice:null,
+              date:null,
+              time:null,
+              sumPrice : null,
+              price:null,
+              user_id : null
             }
+           
         }
+    },
+    methods:{
+      setCityAndPrice(){
+        this.orderDetails.city = this.cities[this.delivery.city-1].text;
+        this.orderDetails.deliveryPrice = this.cities[this.delivery.city-1].price;
+      },
+      removeItem(id){
+        console.log(id);
+        let items = this.cartItems;
+        items =  items.filter(product => product.product_id != id);
+        this.$store.state.cartItems = items;
+        localStorage.removeItem('basket');
+        localStorage.setItem('basket', JSON.stringify(items));
+      },
+      changeCart(){
+        this.$store.commit('changeCart');
+            console.log('ok')
+      },
+      submitOrder(){
+        this.orderDetails.sumPrice = this.combinedPrice;
+                this.orderDetails.price = this.cartSum;
+        let order = {
+          products:this.cartItems,
+          details:this.orderDetails
+        }
+        axios.post('/api/orders', {
+            info: order,
+          })
+          .then(function (response) {
+            console.log(response);
+          })
+          .catch(function (error) {
+            console.log(error.response.data.message);
+          });
+      }
+
+    },
+    mounted(){
+    if(this.$store.state.logged){
+      this.userInfo = this.userData.user;
+      this.orderDetails.street = this.userData.user.street;
+      this.orderDetails.number = this.userData.user.number;
+      this.orderDetails.phone = this.userData.user.phone;
+      this.orderDetails.user_id = this.userData.user.id;
+    }
     }
 }
 </script>

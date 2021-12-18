@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\editAccount;
+use App\Http\Controllers\orderController;
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -42,6 +43,9 @@ Route::get("/showCategories",[ProductController::class,'showCategories']);
 //public users
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
+
+//public orders
+Route::post('/orders',[orderController::class,'createOrder']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

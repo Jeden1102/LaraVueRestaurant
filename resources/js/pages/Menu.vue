@@ -1,5 +1,5 @@
 <template>
-    <div class="container ">
+    <div class="container relative">
         <h2 class="my-4">Pick your favourite food and enjoy the meal !</h2>
      <!--FILTER -->
         <div class="my-4 relative">
