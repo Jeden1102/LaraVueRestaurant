@@ -6,7 +6,7 @@ import HomePage from './pages/HomePage.vue'
 import Menu from './pages/Menu.vue'
 import Product from './pages/Product.vue'
 import Checkout from './pages/Checkout.vue'
-
+//admin panel
 export const routes = [
     {
 		path: '/',
@@ -39,5 +39,7 @@ export const routes = [
     {
 		path:'/checkout',
         component: Checkout
-    }
+    },
+    //admin panel
+
 ];

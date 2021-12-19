@@ -134,7 +134,9 @@
   </div>
       </b-card-text>
       </b-tab>
-      <b-tab active title="Statistics&History"><b-card-text>Tab contents 2</b-card-text></b-tab>
+      <b-tab active title="Statistics&History"><b-card-text>
+        <stats/>
+      </b-card-text></b-tab>
     </b-tabs>
   </b-card>
   
@@ -144,8 +146,11 @@
 <script>
 import { mapState } from 'vuex';
 import { required, email, minLength, sameAs,maxLength } from "vuelidate/lib/validators";
-
+import stats from '../components/stats.vue';
 export default {
+    components:{
+        stats
+    },
     data(){
         return{
             info : null,

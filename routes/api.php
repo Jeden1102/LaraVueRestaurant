@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\editAccount;
 use App\Http\Controllers\orderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\statsController;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,7 +29,8 @@ Route::group(['middleware'=>['auth:sanctum']], function () {
     Route::post('/editGeneral',[editAccount::class,'general']);
     Route::post('/editDelivery',[editAccount::class,'deliveryInfo']);
     Route::post('/pwdChange',[editAccount::class,'pwdChange']);
-
+    //stats
+    Route::post('/getStats',[statsController::class,'getStatistics']);
 });
 
 //public routes:)
